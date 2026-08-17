@@ -7,15 +7,38 @@ Landing page da **EMPIRES Dev**, hospedada no GitHub Pages.
 ## Estrutura
 
 ```
-index.html          Página única — HTML + CSS inline, sem build e sem dependências
+index.html          Versão em inglês, servida na raiz (/)
+br/index.html       Versão em português, servida em /br/
+assets/styles.css   CSS compartilhado pelas duas versões
 CNAME               Domínio customizado do GitHub Pages (empiresdev.com)
 .nojekyll           Desliga o processamento Jekyll do Pages
 robots.txt          Diretivas de crawler
-sitemap.xml         Sitemap
-assets/             Imagens usadas pela página (logo, favicon, og-image)
+sitemap.xml         Sitemap com as duas URLs e suas alternâncias de idioma
+assets/             Imagens usadas pelas páginas (logo, favicon, og-image, Metria)
 brand/              Kit de marca — logos em SVG e PNG (fonte da verdade)
 design/             Fonte original exportada do Claude Design, para referência
 ```
+
+## Bilíngue
+
+O site tem duas versões estáticas, uma por URL — sem JavaScript e sem
+redirecionamento automático por idioma do navegador:
+
+| URL | Idioma | `lang` |
+| --- | --- | --- |
+| `/` | Inglês | `en` |
+| `/br/` | Português | `pt-BR` |
+
+O seletor no canto superior direito são links comuns entre as duas. Cada página
+declara a outra em `<link rel="alternate" hreflang>`, com `x-default` apontando
+para a raiz.
+
+**Ao editar, mude as duas.** Todo texto visível existe em dois arquivos. O CSS
+não: ele mora só em `assets/styles.css`.
+
+Os screenshots do Metria continuam em português nas duas versões — a interface
+do app é em português, e trocá-los exigiria rodar o app em outra locale. Nas
+páginas em inglês o `alt` das imagens diz isso explicitamente.
 
 ## Desenvolvimento local
 
