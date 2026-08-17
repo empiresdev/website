@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Metria">
+  
+  <rect width="240" height="240" rx="54" fill="#061B40"></rect>
+  <path fill="#FCF5ED" d="M65 77 L94 99 V179 H65 Z"></path>
+  <path fill="#FCF5ED" d="M105 108 L122 125 L139 108 V179 H105 Z"></path>
+  <path fill="#FCF5ED" d="M151 98 L178 82 V179 H151 Z"></path>
+  <circle cx="187" cy="73" r="9" fill="#3ABBAB"></circle>
+</svg>
