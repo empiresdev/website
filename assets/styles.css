@@ -2,11 +2,14 @@
    (/ em inglês e /br/ em português). */
 
 :root {
-  --color-bg: #061B40;
+  /* Navy quase preto: mesma matiz (~220°) do azul da marca, mas escuro o
+     bastante para o ícone do Metria (#061B40) não sumir no fundo da página. */
+  --color-bg: #040D20;
   --color-text: #FCF5ED;
   --color-muted: #A8B4C8;
   --color-accent: #38B6B2;
-  --color-divider: #1E4272;
+  /* Cinza levemente frio: separa sem competir com o azul e o teal. */
+  --color-divider: #2B313B;
   --font: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --gutter: clamp(20px, 5vw, 72px);
 }
@@ -167,8 +170,8 @@ body {
   align-items: center;
 }
 
-/* O badge do ícone usa o mesmo navy do fundo, então o contorno é o que
-   define a silhueta de app icon. */
+/* O badge do ícone é o navy da marca (#061B40), um pouco mais claro que o
+   fundo da página — o contorno reforça a silhueta de app icon. */
 .project__icon {
   width: 72px;
   height: 72px;

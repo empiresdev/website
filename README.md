@@ -59,11 +59,12 @@ A configuração fica em **Settings → Pages** (Source: `Deploy from a branch` 
 
 | Token | Valor |
 | --- | --- |
-| Fundo | `#061B40` |
+| Fundo | `#040D20` |
 | Texto | `#FCF5ED` |
 | Texto suave | `#A8B4C8` |
 | Destaque | `#38B6B2` |
-| Divisor | `#1E4272` |
+| Divisor | `#2B313B` |
+| Navy da marca (ícone/og) | `#061B40` |
 | Tipografia | Space Grotesk |
 
 ## Regerar a imagem de compartilhamento (og-image)
