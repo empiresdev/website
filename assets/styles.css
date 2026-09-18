@@ -369,3 +369,66 @@ body {
   }
   .footer__meta { justify-content: center; }
 }
+
+/* — selos de loja —
+   Segue o padrão dos badges oficiais da Apple e do Google: pílula preta,
+   logo à esquerda, linha de apoio pequena sobre o nome da loja. A borda usa
+   o divisor do site para o preto não sumir no navy do fundo. */
+
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 32px 0 0;
+}
+
+.store {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 14px;
+  border-radius: 10px;
+  background: #000;
+  border: 1px solid var(--color-divider);
+  color: #fff;
+  text-decoration: none;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.store:hover,
+.store:focus-visible {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.store:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.store__logo {
+  flex: none;
+  height: 26px;
+  width: auto;
+}
+
+.store__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-align: left;
+}
+
+.store__pre {
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #D7DEE8;
+}
+
+.store__name {
+  margin-top: 3px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
