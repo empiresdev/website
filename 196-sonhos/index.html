@@ -166,7 +166,7 @@
   }
   .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);
     width:88px;height:20px;background:var(--black);border-radius:var(--r-full);z-index:5}
-  .status{display:flex;justify-content:space-between;align-items:center;
+  .status{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3;
     padding:15px 22px 0;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.4px}
   .bars{display:flex;gap:3px;align-items:flex-end}
   .bars i{display:block;width:3px;background:var(--muted);border-radius:1px}
@@ -210,8 +210,14 @@
   .tier .td{font-size:11px;color:var(--muted);margin-top:2px}
   .tier .tp{font-size:15px;font-weight:800;color:var(--primary)}
 
-  .map{height:132px;border-radius:var(--r-card);background:var(--canvas);position:relative;overflow:hidden;border:1px solid var(--hairline)}
-  .map svg{position:absolute;inset:0;width:100%;height:100%}
+  .mapbg{position:absolute;inset:0;z-index:0;background:#111319}
+  .mapbg svg{display:block;width:100%;height:100%}
+  .maphead{position:relative;z-index:2;margin:var(--s-md) var(--s-md) 0;
+    background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-md)}
+  .scr-map{padding:0;gap:0;position:relative;z-index:1}
+  .sheet{margin-top:auto;background:var(--surface);border-top:1px solid var(--hairline);
+    border-radius:var(--r-card) var(--r-card) 0 0;padding:var(--s-lg) var(--s-lg) var(--s-xl)}
   .route-row{display:flex;justify-content:space-between;align-items:center;
     padding:10px 0;border-bottom:1px solid var(--hairline);font-size:12px}
   .route-row:last-child{border-bottom:0}
@@ -482,27 +488,46 @@
 
         <div class="tile">
           <div class="phone"><div class="screen">
+            <div class="mapbg">
+              <svg viewBox="0 0 290 600" preserveAspectRatio="none">
+                <rect width="290" height="600" fill="#111319"/>
+                <g fill="#171a22">
+                  <rect x="18" y="70" width="90" height="60" rx="6"/>
+                  <rect x="130" y="48" width="120" height="70" rx="6"/>
+                  <rect x="22" y="160" width="70" height="90" rx="6"/>
+                  <rect x="122" y="150" width="60" height="50" rx="6"/>
+                  <rect x="204" y="140" width="66" height="80" rx="6"/>
+                  <rect x="30" y="280" width="100" height="70" rx="6"/>
+                  <rect x="160" y="262" width="100" height="90" rx="6"/>
+                  <rect x="40" y="392" width="80" height="80" rx="6"/>
+                  <rect x="152" y="392" width="108" height="70" rx="6"/>
+                  <rect x="60" y="510" width="100" height="70" rx="6"/>
+                  <rect x="192" y="500" width="80" height="90" rx="6"/>
+                </g>
+                <g stroke="#232734" stroke-width="2" fill="none">
+                  <path d="M0 130 H290"/><path d="M0 254 H290"/><path d="M0 376 H290"/><path d="M0 498 H290"/>
+                  <path d="M112 0 V600"/><path d="M192 0 V600"/>
+                </g>
+                <polyline points="42,506 92,436 132,474 178,382 212,302 242,222 236,146 262,92" fill="none" stroke="#0075ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="42" cy="506" r="6" fill="#00b24b"/>
+                <circle cx="132" cy="474" r="5" fill="#53575f"/>
+                <circle cx="212" cy="302" r="5" fill="#53575f"/>
+                <circle cx="236" cy="146" r="6" fill="#00b24b"/>
+              </svg>
+            </div>
             <div class="notch"></div>
             <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
-            <div class="scr">
-              <div class="k">Patrocine um km</div>
-              <h4>Seu nome na rota</h4>
-              <div class="map">
-                <svg viewBox="0 0 250 132" preserveAspectRatio="none">
-                  <polyline points="20,96 74,58 132,78 190,34 232,52" fill="none" stroke="#0075ff" stroke-width="2" stroke-linecap="round"/>
-                  <circle cx="20" cy="96" r="5" fill="#00b24b"/>
-                  <circle cx="74" cy="58" r="4" fill="#53575f"/>
-                  <circle cx="132" cy="78" r="4" fill="#53575f"/>
-                  <circle cx="190" cy="34" r="4" fill="#53575f"/>
-                  <circle cx="232" cy="52" r="5" fill="#00b24b"/>
-                </svg>
+            <div class="scr scr-map">
+              <div class="maphead">
+                <div class="k">Patrocine um km</div>
+                <h4>Seu nome na rota</h4>
               </div>
-              <div>
+              <div class="sheet">
                 <div class="route-row"><div><div class="rn">Tokyo → Kyoto</div><div class="rs">trecho 042</div></div><span class="free">LIVRE</span></div>
                 <div class="route-row"><div><div class="rn">Kyoto → Osaka</div><div class="rs">trecho 043</div></div><span class="taken">PATROCINADO</span></div>
                 <div class="route-row"><div><div class="rn">Osaka → Nara</div><div class="rs">trecho 044</div></div><span class="free">LIVRE</span></div>
+                <div class="btn-green" style="margin-top:var(--s-md)">Apadrinhar um km</div>
               </div>
-              <div class="btn-green" style="margin-top:auto">Apadrinhar um km</div>
             </div>
           </div></div>
           <div class="cap"><b>Patrocine um km</b><span>Mapa da rota e trechos livres pra escolher, com o nome no registro.</span></div>
@@ -510,26 +535,47 @@
 
         <div class="tile">
           <div class="phone"><div class="screen">
+            <div class="mapbg">
+              <svg viewBox="0 0 290 600" preserveAspectRatio="none">
+                <rect width="290" height="600" fill="#111319"/>
+                <g fill="#171a22">
+                  <rect x="18" y="70" width="90" height="60" rx="6"/>
+                  <rect x="130" y="48" width="120" height="70" rx="6"/>
+                  <rect x="22" y="160" width="70" height="90" rx="6"/>
+                  <rect x="122" y="150" width="60" height="50" rx="6"/>
+                  <rect x="204" y="140" width="66" height="80" rx="6"/>
+                  <rect x="30" y="280" width="100" height="70" rx="6"/>
+                  <rect x="160" y="262" width="100" height="90" rx="6"/>
+                  <rect x="40" y="392" width="80" height="80" rx="6"/>
+                  <rect x="152" y="392" width="108" height="70" rx="6"/>
+                  <rect x="60" y="510" width="100" height="70" rx="6"/>
+                  <rect x="192" y="500" width="80" height="90" rx="6"/>
+                </g>
+                <g stroke="#232734" stroke-width="2" fill="none">
+                  <path d="M0 130 H290"/><path d="M0 254 H290"/><path d="M0 376 H290"/><path d="M0 498 H290"/>
+                  <path d="M112 0 V600"/><path d="M192 0 V600"/>
+                </g>
+                <polyline points="42,506 92,436 132,474 178,382 212,302 242,222 236,146 262,92" fill="none" stroke="#0075ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="42" cy="506" r="6" fill="#00b24b"/>
+                <circle cx="132" cy="474" r="5" fill="#53575f"/>
+                <circle cx="212" cy="302" r="5" fill="#53575f"/>
+                <circle cx="236" cy="146" r="6" fill="#00b24b"/>
+              </svg>
+            </div>
             <div class="notch"></div>
             <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
-            <div class="scr">
-              <div class="k">Jornada</div>
-              <h4>Rota ao vivo</h4>
-              <div class="map" style="height:108px">
-                <svg viewBox="0 0 250 132" preserveAspectRatio="none">
-                  <polyline points="20,96 74,58 132,78 190,34 232,52" fill="none" stroke="#0075ff" stroke-width="2" stroke-linecap="round"/>
-                  <circle cx="20" cy="96" r="5" fill="#00b24b"/>
-                  <circle cx="74" cy="58" r="4" fill="#53575f"/>
-                  <circle cx="132" cy="78" r="4" fill="#53575f"/>
-                  <circle cx="190" cy="34" r="4" fill="#53575f"/>
-                  <circle cx="232" cy="52" r="5" fill="#53575f"/>
-                </svg>
+            <div class="scr scr-map">
+              <div class="maphead">
+                <div class="k">Jornada</div>
+                <h4>Rota ao vivo</h4>
               </div>
-              <div class="timeline">
-                <div class="tl done"><span class="d">12 mai</span><div><div class="c">Tóquio</div><div class="s">Concluído</div></div></div>
-                <div class="tl now"><span class="d">18 mai</span><div><div class="c">Kyoto</div><div class="s">Ao vivo</div></div></div>
-                <div class="tl"><span class="d">24 mai</span><div><div class="c">Osaka</div><div class="s">Próximo</div></div></div>
-                <div class="tl"><span class="d">30 mai</span><div><div class="c">Nara</div><div class="s">Planejado</div></div></div>
+              <div class="sheet">
+                <div class="timeline">
+                  <div class="tl done"><span class="d">12 mai</span><div><div class="c">Tóquio</div><div class="s">Concluído</div></div></div>
+                  <div class="tl now"><span class="d">18 mai</span><div><div class="c">Kyoto</div><div class="s">Ao vivo</div></div></div>
+                  <div class="tl"><span class="d">24 mai</span><div><div class="c">Osaka</div><div class="s">Próximo</div></div></div>
+                  <div class="tl"><span class="d">30 mai</span><div><div class="c">Nara</div><div class="s">Planejado</div></div></div>
+                </div>
               </div>
             </div>
           </div></div>
