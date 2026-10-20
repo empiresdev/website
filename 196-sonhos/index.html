@@ -129,6 +129,7 @@
 
   /* payments */
   .paygrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+  .paygrid-3{grid-template-columns:repeat(3,1fr)}
   .paycard{background:var(--surface);border:1px solid var(--hairline);
     border-radius:var(--r-card);padding:var(--s-xl)}
   .paycard h3{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md)}
@@ -136,6 +137,7 @@
     padding:0 var(--s-sm);font-size:12px;font-weight:600;line-height:1.6;white-space:nowrap}
   .pill-green{background:rgba(0,178,75,.14);color:var(--primary)}
   .pill-blue{background:rgba(0,117,255,.16);color:#5aa3ff}
+  .pill-neutral{background:var(--canvas);border:1px solid var(--hairline);color:var(--muted)}
   .paycard p{margin-top:var(--s-md);font-size:14px;color:var(--muted)}
 
   /* horizontal rail of screens */
@@ -220,6 +222,18 @@
   .free{color:var(--primary);font-weight:800;font-size:10px;letter-spacing:.4px}
   .taken{color:var(--faint);font-weight:600;font-size:10px;letter-spacing:.4px}
 
+  .timeline{position:relative;display:flex;flex-direction:column;gap:13px;padding-left:18px}
+  .timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:1px;background:var(--hairline)}
+  .tl{position:relative;display:flex;gap:10px;align-items:flex-start}
+  .tl::before{content:"";position:absolute;left:-16px;top:3px;width:9px;height:9px;border-radius:50%;
+    background:var(--faint);border:2px solid var(--canvas);box-sizing:content-box}
+  .tl.done::before{background:var(--primary)}
+  .tl.now::before{background:var(--secondary)}
+  .tl .d{width:40px;flex:none;font-size:9px;color:var(--faint);letter-spacing:.4px;padding-top:2px}
+  .tl .c{font-size:12px;font-weight:800}
+  .tl .s{font-size:9px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+  .tl.now .s{color:var(--secondary)}
+
   .shop-item{display:flex;gap:var(--s-md);align-items:center;
     padding-bottom:var(--s-md);border-bottom:1px solid var(--hairline)}
   .shop-item:last-of-type{border-bottom:0}
@@ -284,7 +298,7 @@
 
   @media (max-width:1024px){
     .stats{grid-template-columns:1fr 1fr}
-    .cards,.paygrid,.deliv,.steps{grid-template-columns:1fr}
+    .cards,.paygrid,.paygrid-3,.deliv,.steps{grid-template-columns:1fr}
     .dash{grid-template-columns:1fr}
   }
   @media (max-width:768px){
@@ -335,7 +349,7 @@
     <section class="sec hero">
       <div class="label">Proposta</div>
       <h1>Um ano de lives pelo mundo,<br>com receita própria.</h1>
-      <p class="lede">O Clube 196 transforma a audiência do Anderson em assinatura recorrente, patrocínio de km e doação ao vivo — dentro de um app multiplataforma, com Pix pro Brasil e cripto opcional pro estrangeiro.</p>
+      <p class="lede">O Clube 196 transforma a audiência do Anderson em assinatura recorrente, patrocínio de km e doação ao vivo — dentro de um app multiplataforma, com Pix, cartão ou Pixblock.</p>
       <div class="meta">
         <div><span>Para</span>Anderson Dias, 196 Sonhos</div>
         <div><span>De</span>Empires Dev, engenharia de produto</div>
@@ -395,17 +409,21 @@
       <div class="sec-head">
         <div>
           <div class="label">Pagamentos</div>
-          <h2>Pix pra brasileiro. Cripto só pra gringo.</h2>
+          <h2>Pix, cartão ou Pixblock.</h2>
         </div>
       </div>
-      <div class="paygrid">
+      <div class="paygrid paygrid-3">
         <div class="paycard">
-          <h3>Brasil <span class="pill pill-green">Pix</span></h3>
-          <p>Instantâneo, barato e nativo. É o caminho padrão de assinatura, doação na live e patrocínio de km.</p>
+          <h3>Pix <span class="pill pill-green">Instantâneo</span></h3>
+          <p>Barato e nativo. É o caminho padrão de assinatura, doação na live e patrocínio de km.</p>
         </div>
         <div class="paycard">
-          <h3>Estrangeiro <span class="pill pill-blue">USDC</span></h3>
-          <p>Opção secundária pra quem não tem Pix. Carteira embutida: o fã não vê seed phrase nem taxa de rede.</p>
+          <h3>Cartão <span class="pill pill-blue">Crédito</span></h3>
+          <p>Recorrência e parcelamento pra quem prefere pagar no cartão.</p>
+        </div>
+        <div class="paycard">
+          <h3>Pixblock <span class="pill pill-neutral">Protegido</span></h3>
+          <p>Pagamento com proteção, pra transações que pedem mais segurança.</p>
         </div>
       </div>
     </section>
@@ -416,7 +434,7 @@
           <div class="label">Telas</div>
           <h2>O app, por dentro.</h2>
         </div>
-        <p style="font-size:13px;color:var(--muted);max-width:38ch">Protótipos estáticos de quatro telas mobile que também funcionam em web, com o mesmo conteúdo e a mesma conta.</p>
+        <p style="font-size:13px;color:var(--muted);max-width:38ch">Protótipos estáticos de cinco telas mobile que também funcionam em web, com o mesmo conteúdo e a mesma conta.</p>
       </div>
 
       <div class="rail-scroll">
@@ -494,6 +512,34 @@
             </div>
           </div></div>
           <div class="cap"><b>Patrocine um km</b><span>Mapa da rota e trechos livres pra escolher, com o nome no registro.</span></div>
+        </div>
+
+        <div class="tile">
+          <div class="phone"><div class="screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
+            <div class="scr">
+              <div class="k">Jornada</div>
+              <h4>Rota ao vivo</h4>
+              <div class="map" style="height:108px">
+                <svg viewBox="0 0 250 132" preserveAspectRatio="none">
+                  <polyline points="20,96 74,58 132,78 190,34 232,52" fill="none" stroke="#0075ff" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="20" cy="96" r="5" fill="#00b24b"/>
+                  <circle cx="74" cy="58" r="4" fill="#53575f"/>
+                  <circle cx="132" cy="78" r="4" fill="#53575f"/>
+                  <circle cx="190" cy="34" r="4" fill="#53575f"/>
+                  <circle cx="232" cy="52" r="5" fill="#53575f"/>
+                </svg>
+              </div>
+              <div class="timeline">
+                <div class="tl done"><span class="d">12 mai</span><div><div class="c">Tóquio</div><div class="s">Concluído</div></div></div>
+                <div class="tl now"><span class="d">18 mai</span><div><div class="c">Kyoto</div><div class="s">Ao vivo</div></div></div>
+                <div class="tl"><span class="d">24 mai</span><div><div class="c">Osaka</div><div class="s">Próximo</div></div></div>
+                <div class="tl"><span class="d">30 mai</span><div><div class="c">Nara</div><div class="s">Planejado</div></div></div>
+              </div>
+            </div>
+          </div></div>
+          <div class="cap"><b>Jornada</b><span>Mapa e timeline da rota, com paradas, datas e status em tempo real.</span></div>
         </div>
 
         <div class="tile">
