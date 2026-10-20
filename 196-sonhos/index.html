@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<title>Clube 196 — proposta e telas do app</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --canvas:#141415;
+    --surface:#2e3035;
+    --hairline:#2d2f33;
+    --ink:#f0f2f5;
+    --muted:#9aa1b1;
+    --faint:#53575f;
+    --primary:#00b24b;
+    --secondary:#0075ff;
+    --on-primary:#ffffff;
+    --black:#000000;
+
+    --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:10px;
+    --r-xl:12px; --r-card:16px; --r-full:999px;
+
+    --s-xxs:2px; --s-xs:4px; --s-sm:8px; --s-md:12px;
+    --s-lg:16px; --s-xl:20px; --s-xxl:24px; --s-xxxl:32px;
+
+    --emp-navy:#040D20; --emp-cream:#FCF5ED;
+    --emp-teal:#38B6B2; --emp-muted:#A8B4C8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:Inter,sans-serif;
+    font-size:14px;
+    font-weight:600;
+    line-height:1.4;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--secondary);text-decoration:none}
+  ::selection{background:rgba(0,117,255,.35)}
+
+  /* app shell */
+  .rail{
+    position:fixed;top:0;bottom:0;left:0;width:72px;z-index:50;
+    background:var(--canvas);border-right:1px solid var(--hairline);
+    display:flex;flex-direction:column;align-items:center;gap:var(--s-xs);
+    padding:var(--s-md) 0;
+  }
+  .rail a{
+    width:48px;height:48px;border-radius:var(--r-lg);
+    display:flex;align-items:center;justify-content:center;color:var(--muted);
+  }
+  .rail a.on{color:var(--primary);background:var(--surface)}
+  .rail svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .main{margin-left:72px;min-height:100vh}
+
+  .topnav{
+    position:sticky;top:0;z-index:40;
+    display:flex;align-items:center;gap:var(--s-md);
+    height:56px;padding:var(--s-sm) var(--s-lg);
+    background:var(--canvas);border-bottom:1px solid var(--hairline);
+  }
+  .brand{font-size:16px;font-weight:800;letter-spacing:-.2px;white-space:nowrap}
+  .brand span{color:var(--primary)}
+  .search{
+    flex:1;max-width:420px;
+    background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-md);padding:var(--s-sm) var(--s-md);
+    color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;outline:none;
+  }
+  .search::placeholder{color:var(--faint)}
+  .nav-actions{display:flex;gap:var(--s-sm);margin-left:auto}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    border:0;border-radius:var(--r-lg);padding:var(--s-sm) var(--s-md);
+    font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;
+  }
+  .btn-primary{background:var(--primary);color:var(--on-primary)}
+  .btn-secondary{background:var(--secondary);color:var(--on-primary)}
+
+  .content{max-width:1240px;margin:0 auto;padding:var(--s-xxl) var(--s-xxxl) 80px}
+
+  /* sections */
+  .sec{padding:var(--s-xxxl) 0;border-bottom:1px solid var(--hairline)}
+  .sec:last-of-type{border-bottom:0}
+  .label{
+    font-size:12px;font-weight:600;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--primary);margin-bottom:var(--s-md);
+  }
+  h1{font-size:clamp(34px,4.6vw,56px);font-weight:800;line-height:1.08;letter-spacing:-1.6px}
+  h2{font-size:clamp(20px,2.4vw,26px);font-weight:800;line-height:1.15;letter-spacing:-.4px;max-width:22ch}
+  h3{font-size:20px;font-weight:800;line-height:1.2}
+  .lede{margin-top:var(--s-md);font-size:16px;font-weight:600;line-height:1.45;color:var(--muted);max-width:56ch}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-lg);margin-bottom:var(--s-lg)}
+
+  /* hero */
+  .hero{padding-top:var(--s-xxl)}
+  .hero h1{margin-bottom:var(--s-md)}
+  .meta{
+    display:flex;flex-wrap:wrap;gap:var(--s-xxxl);
+    margin-top:var(--s-xxl);padding-top:var(--s-lg);border-top:1px solid var(--hairline);
+  }
+  .meta div{font-size:14px}
+  .meta span{display:block;font-size:11px;font-weight:600;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--faint);margin-bottom:var(--s-xs)}
+
+  /* stat tiles */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-md)}
+  .stat{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-lg)}
+  .stat b{display:block;font-size:28px;font-weight:800;line-height:1.1;letter-spacing:-.5px}
+  .stat small{display:block;margin-top:var(--s-xs);font-size:12px;color:var(--muted)}
+
+  /* model cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+  .card{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-xl)}
+  .card .num{font-size:12px;font-weight:600;letter-spacing:1px;color:var(--primary)}
+  .card h3{margin:var(--s-sm) 0}
+  .card p{font-size:14px;color:var(--muted)}
+
+  /* payments */
+  .paygrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+  .paycard{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-xl)}
+  .paycard h3{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-md)}
+  .pill{display:inline-flex;align-items:center;border-radius:var(--r-full);
+    padding:0 var(--s-sm);font-size:12px;font-weight:600;line-height:1.6;white-space:nowrap}
+  .pill-green{background:rgba(0,178,75,.14);color:var(--primary)}
+  .pill-blue{background:rgba(0,117,255,.16);color:#5aa3ff}
+  .paycard p{margin-top:var(--s-md);font-size:14px;color:var(--muted)}
+
+  /* horizontal rail of screens */
+  .rail-scroll{
+    display:flex;gap:var(--s-lg);overflow-x:auto;
+    padding:var(--s-xs) 0 var(--s-md);
+    scroll-snap-type:x mandatory;
+  }
+  .rail-scroll::-webkit-scrollbar{height:6px}
+  .rail-scroll::-webkit-scrollbar-thumb{background:var(--hairline);border-radius:var(--r-full)}
+  .tile{
+    flex:0 0 auto;scroll-snap-align:start;width:314px;
+    background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-md);
+  }
+  .cap{margin-top:var(--s-md)}
+  .cap b{display:block;font-size:14px;font-weight:800}
+  .cap span{display:block;font-size:12px;color:var(--muted);margin-top:var(--s-xs);line-height:1.45}
+
+  /* phone */
+  .phone{
+    width:290px;height:600px;margin:0 auto;
+    background:var(--black);border-radius:44px;padding:9px;
+  }
+  .screen{
+    width:100%;height:100%;background:var(--canvas);border-radius:36px;
+    overflow:hidden;display:flex;flex-direction:column;position:relative;
+  }
+  .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:88px;height:20px;background:var(--black);border-radius:var(--r-full);z-index:5}
+  .status{display:flex;justify-content:space-between;align-items:center;
+    padding:15px 22px 0;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.4px}
+  .bars{display:flex;gap:3px;align-items:flex-end}
+  .bars i{display:block;width:3px;background:var(--muted);border-radius:1px}
+  .bars i:nth-child(1){height:4px}
+  .bars i:nth-child(2){height:6px}
+  .bars i:nth-child(3){height:8px}
+  .scr{padding:var(--s-lg) var(--s-lg) var(--s-xl);
+    display:flex;flex-direction:column;gap:var(--s-md);flex:1;min-height:0}
+  .k{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .livebadge{
+    display:inline-flex;align-items:center;width:max-content;
+    background:var(--secondary);color:var(--on-primary);
+    font-size:10px;font-weight:800;letter-spacing:1.4px;
+    padding:var(--s-xs) var(--s-sm);border-radius:var(--r-full);text-transform:uppercase;
+  }
+  .scr h4{font-size:22px;font-weight:800;letter-spacing:-.4px;line-height:1.1}
+  .scr .sub{font-size:12px;color:var(--muted);margin-top:-4px}
+  .media{height:150px;border-radius:var(--r-card);overflow:hidden;position:relative;background:#2a2320}
+  .media .sky{position:absolute;inset:0;background:#8a5a33}
+  .media .sun{position:absolute;width:50px;height:50px;border-radius:50%;background:#d9a46a;top:38px;left:50%;transform:translateX(-50%)}
+  .media .ground{position:absolute;left:0;right:0;bottom:0;height:54px;background:#231a14}
+  .media .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .media .play span{width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.55);
+    display:flex;align-items:center;justify-content:center}
+  .media .play span::after{content:"";display:block;width:0;height:0;margin-left:3px;
+    border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent}
+  .viewers{font-size:12px;color:var(--muted)}
+  .viewers b{color:var(--ink);font-weight:800}
+  .btn-green{display:flex;align-items:center;justify-content:center;height:44px;
+    border-radius:var(--r-lg);background:var(--primary);color:var(--on-primary);
+    font-weight:800;font-size:14px}
+  .nextbar{margin-top:auto;border-top:1px solid var(--hairline);padding-top:var(--s-md);
+    font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+  .nextbar b{color:var(--ink);font-weight:800}
+
+  .tier{border:1px solid var(--hairline);border-radius:var(--r-xl);
+    padding:var(--s-md);display:flex;justify-content:space-between;align-items:center;
+    background:var(--canvas)}
+  .tier.sel{border-color:var(--secondary)}
+  .tier .tn{font-size:14px;font-weight:800}
+  .tier .td{font-size:11px;color:var(--muted);margin-top:2px}
+  .tier .tp{font-size:15px;font-weight:800;color:var(--primary)}
+
+  .map{height:132px;border-radius:var(--r-card);background:var(--canvas);position:relative;overflow:hidden;border:1px solid var(--hairline)}
+  .map svg{position:absolute;inset:0;width:100%;height:100%}
+  .route-row{display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;border-bottom:1px solid var(--hairline);font-size:12px}
+  .route-row:last-child{border-bottom:0}
+  .route-row .rn{font-weight:800}
+  .route-row .rs{color:var(--muted);font-size:10px;margin-top:2px}
+  .free{color:var(--primary);font-weight:800;font-size:10px;letter-spacing:.4px}
+  .taken{color:var(--faint);font-weight:600;font-size:10px;letter-spacing:.4px}
+
+  .shop-item{display:flex;gap:var(--s-md);align-items:center;
+    padding-bottom:var(--s-md);border-bottom:1px solid var(--hairline)}
+  .shop-item:last-of-type{border-bottom:0}
+  .thumb{width:48px;height:48px;border-radius:var(--r-md);flex:none}
+  .shop-item .si{flex:1}
+  .shop-item .sn{font-size:13px;font-weight:800}
+  .shop-item .sd{font-size:11px;color:var(--muted);margin-top:2px}
+  .shop-item .sp{font-size:13px;font-weight:800;color:var(--ink)}
+
+  /* web dashboard */
+  .browser{margin-top:var(--s-xl);background:var(--surface);
+    border:1px solid var(--hairline);border-radius:var(--r-card);overflow:hidden}
+  .browser .bar{height:44px;background:var(--canvas);border-bottom:1px solid var(--hairline);
+    display:flex;align-items:center;padding:0 var(--s-md)}
+  .url{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-md);
+    color:var(--muted);font-size:12px;padding:5px var(--s-md);max-width:340px;flex:1}
+  .dash{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s-md);padding:var(--s-md);background:var(--canvas)}
+  .panel{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-xl);padding:var(--s-md)}
+  .panel .pt{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:var(--s-sm)}
+  .panel h5{font-size:15px;font-weight:800;margin-bottom:var(--s-xs)}
+  .bigmap{height:186px;position:relative;background:var(--canvas);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--hairline)}
+  .bigmap svg{position:absolute;inset:0;width:100%;height:100%}
+  .lead-row{display:flex;justify-content:space-between;align-items:center;
+    padding:8px 0;border-bottom:1px solid var(--hairline);font-size:12px;color:var(--muted)}
+  .lead-row:last-child{border-bottom:0}
+  .lead-row .rank{color:var(--faint);width:16px}
+  .lead-row .amt{color:var(--primary);font-weight:800}
+  .kpi{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm)}
+  .kpi div{background:var(--canvas);border-radius:var(--r-md);padding:var(--s-md)}
+  .kpi b{display:block;font-size:20px;font-weight:800;color:var(--ink)}
+  .kpi small{font-size:10px;color:var(--muted)}
+
+  /* deliverables + steps */
+  .deliv{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+  .deliv .card h3{font-size:16px}
+  .deliv .card p{font-size:13px;margin-top:var(--s-xs)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-md)}
+  .step{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-xl)}
+  .step .n{font-size:28px;font-weight:800;color:var(--primary);line-height:1;margin-bottom:var(--s-md)}
+  .step b{display:block;font-size:16px;font-weight:800;margin-bottom:var(--s-xs)}
+  .step p{font-size:13px;color:var(--muted)}
+
+  /* closing */
+  .closing{background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-card);padding:var(--s-xxxl);margin-top:var(--s-xxxl)}
+  .closing .label{color:var(--primary)}
+  .closing h2{max-width:26ch}
+  .closing p{margin-top:var(--s-sm);font-size:14px;color:var(--muted);max-width:56ch}
+  .ctaline{margin-top:var(--s-xxl);padding-top:var(--s-xl);border-top:1px solid var(--hairline);
+    font-size:clamp(18px,2.4vw,26px);font-weight:800;line-height:1.25;letter-spacing:-.4px;max-width:32ch}
+  .closing .btn{margin-top:var(--s-xl)}
+
+  footer{max-width:1240px;margin:0 auto;padding:var(--s-xxl) var(--s-xxxl) 64px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--s-md);
+    font-size:12px;color:var(--faint);border-top:1px solid var(--hairline)}
+  .madeby{display:inline-flex;align-items:center;gap:var(--s-sm);color:var(--emp-muted)}
+  .madeby img{display:block;height:26px;width:auto}
+  .madeby span{font-size:12px;font-weight:600;color:var(--emp-muted)}
+  .madeby:hover span{color:var(--emp-teal)}
+
+  @media (max-width:1024px){
+    .stats{grid-template-columns:1fr 1fr}
+    .cards,.paygrid,.deliv,.steps{grid-template-columns:1fr}
+    .dash{grid-template-columns:1fr}
+  }
+  @media (max-width:768px){
+    .main{margin-left:0}
+    .rail{display:none}
+    .search{display:none}
+    .content{padding:var(--s-lg) var(--s-lg) 64px}
+    .meta{gap:var(--s-xl)}
+    .tile{width:290px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Seções">
+  <a href="#topo" class="on" title="Início">
+    <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+  </a>
+  <a href="#contexto" title="Contexto">
+    <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+  </a>
+  <a href="#modelo" title="Modelo">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+  </a>
+  <a href="#telas" title="Telas">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+  </a>
+  <a href="#produto" title="Produto">
+    <svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/></svg>
+  </a>
+  <a href="#proximo" title="Próximo passo">
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</nav>
+
+<div class="main" id="topo">
+
+  <header class="topnav">
+    <div class="brand">CLUBE <span>196</span></div>
+    <input class="search" type="text" placeholder="Buscar no app" aria-label="Buscar">
+    <div class="nav-actions">
+      <button class="btn btn-secondary">Ver telas</button>
+      <button class="btn btn-primary">Aprovar proposta</button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <section class="sec hero">
+      <div class="label">Proposta</div>
+      <h1>Um ano de lives pelo mundo,<br>com receita própria.</h1>
+      <p class="lede">O Clube 196 transforma a audiência do Anderson em assinatura recorrente, patrocínio de km e doação ao vivo — dentro de um app multiplataforma, com Pix pro Brasil e cripto opcional pro estrangeiro.</p>
+      <div class="meta">
+        <div><span>Para</span>Anderson Dias, 196 Sonhos</div>
+        <div><span>De</span>Empires Dev, engenharia de produto</div>
+        <div><span>Ano</span>2027</div>
+        <div><span>Plataformas</span>Web, Android e iOS</div>
+      </div>
+    </section>
+
+    <section class="sec" id="contexto">
+      <div class="sec-head">
+        <div>
+          <div class="label">Contexto</div>
+          <h2>O difícil ele já fez.</h2>
+        </div>
+      </div>
+      <p class="lede" style="margin-bottom:var(--s-xl)">485 mil inscritos, 450 vídeos e a história de quem já visitou os 196 países. A volta de 2027 não é busca de recorde — é um ano de produção de conteúdo ao vivo. O que falta é transformar essa audiência em receita própria, que não dependa do algoritmo.</p>
+      <div class="stats">
+        <div class="stat"><b>485 mil</b><small>inscritos no YouTube</small></div>
+        <div class="stat"><b>48,6 M</b><small>views acumuladas</small></div>
+        <div class="stat"><b>7,3</b><small>vídeos por mês</small></div>
+        <div class="stat"><b>196</b><small>países visitados</small></div>
+      </div>
+    </section>
+
+    <section class="sec" id="modelo">
+      <div class="sec-head">
+        <div>
+          <div class="label">O modelo</div>
+          <h2>Quatro fontes, uma base.</h2>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="num">01</div>
+          <h3>Clube 196</h3>
+          <p>Assinatura recorrente em três níveis: bastidores, Q&amp;A ao vivo e voto na próxima rota. O fã compra viajar junto.</p>
+        </div>
+        <div class="card">
+          <div class="num">02</div>
+          <h3>Lives</h3>
+          <p>Bastidor fechado, live especial de destino e votação interativa. O ao vivo acontece uma vez e não se repete.</p>
+        </div>
+        <div class="card">
+          <div class="num">03</div>
+          <h3>Patrocine um km</h3>
+          <p>Cada trecho tem um dono, com o nome no mapa e na live. Participação com nome próprio, não doação anônima.</p>
+        </div>
+        <div class="card">
+          <div class="num">04</div>
+          <h3>Produtos e parcerias</h3>
+          <p>Loja com drops por destino, guias e curso, afiliado do gear e patrocínio integrado à live.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <div>
+          <div class="label">Pagamentos</div>
+          <h2>Pix pra brasileiro. Cripto só pra gringo.</h2>
+        </div>
+      </div>
+      <div class="paygrid">
+        <div class="paycard">
+          <h3>Brasil <span class="pill pill-green">Pix</span></h3>
+          <p>Instantâneo, barato e nativo. É o caminho padrão de assinatura, doação na live e patrocínio de km.</p>
+        </div>
+        <div class="paycard">
+          <h3>Estrangeiro <span class="pill pill-blue">USDC</span></h3>
+          <p>Opção secundária pra quem não tem Pix. Carteira embutida: o fã não vê seed phrase nem taxa de rede.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="telas">
+      <div class="sec-head">
+        <div>
+          <div class="label">Telas</div>
+          <h2>O app, por dentro.</h2>
+        </div>
+        <p style="font-size:13px;color:var(--muted);max-width:38ch">Protótipos estáticos de quatro telas mobile que também funcionam em web, com o mesmo conteúdo e a mesma conta.</p>
+      </div>
+
+      <div class="rail-scroll">
+
+        <div class="tile">
+          <div class="phone"><div class="screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
+            <div class="scr">
+              <span class="livebadge">Ao vivo</span>
+              <div>
+                <h4>Tóquio, Japão</h4>
+                <div class="sub">Ep. 12: chegando em Kyoto</div>
+              </div>
+              <div class="media">
+                <div class="sky"></div><div class="sun"></div><div class="ground"></div>
+                <div class="play"><span></span></div>
+              </div>
+              <div class="viewers"><b>2.481</b> assistindo agora</div>
+              <div class="btn-green">Assistir ao vivo</div>
+              <div class="nextbar"><span>Próxima parada</span><b>Seul</b></div>
+            </div>
+          </div></div>
+          <div class="cap"><b>Ao vivo</b><span>Transmissão com contador de espectadores e a próxima parada.</span></div>
+        </div>
+
+        <div class="tile">
+          <div class="phone"><div class="screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
+            <div class="scr">
+              <div class="k">Clube 196</div>
+              <h4>Escolha seu nível</h4>
+              <div class="tier">
+                <div><div class="tn">Básico</div><div class="td">bastidores em lives fechadas</div></div>
+                <div class="tp">R$9,90</div>
+              </div>
+              <div class="tier sel">
+                <div><div class="tn">Plus</div><div class="td">Q&amp;A ao vivo e voto na rota</div></div>
+                <div class="tp">R$19,90</div>
+              </div>
+              <div class="tier">
+                <div><div class="tn">Fundador</div><div class="td">lives exclusivas e badge</div></div>
+                <div class="tp">R$49,90</div>
+              </div>
+              <div class="btn-green" style="margin-top:auto">Assinar</div>
+            </div>
+          </div></div>
+          <div class="cap"><b>Clube 196</b><span>Três níveis de assinatura, com o do meio marcado como escolha comum.</span></div>
+        </div>
+
+        <div class="tile">
+          <div class="phone"><div class="screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
+            <div class="scr">
+              <div class="k">Patrocine um km</div>
+              <h4>Seu nome na rota</h4>
+              <div class="map">
+                <svg viewBox="0 0 250 132" preserveAspectRatio="none">
+                  <polyline points="20,96 74,58 132,78 190,34 232,52" fill="none" stroke="#0075ff" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="20" cy="96" r="5" fill="#00b24b"/>
+                  <circle cx="74" cy="58" r="4" fill="#53575f"/>
+                  <circle cx="132" cy="78" r="4" fill="#53575f"/>
+                  <circle cx="190" cy="34" r="4" fill="#53575f"/>
+                  <circle cx="232" cy="52" r="5" fill="#00b24b"/>
+                </svg>
+              </div>
+              <div>
+                <div class="route-row"><div><div class="rn">Tokyo → Kyoto</div><div class="rs">trecho 042</div></div><span class="free">LIVRE</span></div>
+                <div class="route-row"><div><div class="rn">Kyoto → Osaka</div><div class="rs">trecho 043</div></div><span class="taken">PATROCINADO</span></div>
+                <div class="route-row"><div><div class="rn">Osaka → Nara</div><div class="rs">trecho 044</div></div><span class="free">LIVRE</span></div>
+              </div>
+              <div class="btn-green" style="margin-top:auto">Apadrinhar um km</div>
+            </div>
+          </div></div>
+          <div class="cap"><b>Patrocine um km</b><span>Mapa da rota e trechos livres pra escolher, com o nome no registro.</span></div>
+        </div>
+
+        <div class="tile">
+          <div class="phone"><div class="screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:41</span><span class="bars"><i></i><i></i><i></i></span></div>
+            <div class="scr">
+              <div class="k">Loja</div>
+              <h4>Drops da jornada</h4>
+              <div class="shop-item"><div class="thumb" style="background:#8a5a33"></div><div class="si"><div class="sn">Camiseta 196</div><div class="sd">drop Tóquio</div></div><div class="sp">R$129</div></div>
+              <div class="shop-item"><div class="thumb" style="background:#231a14"></div><div class="si"><div class="sn">Pôster Kyoto</div><div class="sd">edição 042</div></div><div class="sp">R$59</div></div>
+              <div class="shop-item"><div class="thumb" style="background:#6b4a2f"></div><div class="si"><div class="sn">Kit Fundador</div><div class="sd">camiseta, pôster e badge</div></div><div class="sp">R$249</div></div>
+              <div class="shop-item"><div class="thumb" style="background:#3a2a1e"></div><div class="si"><div class="sn">Copo 196</div><div class="sd">drop Ásia</div></div><div class="sp">R$79</div></div>
+              <div class="btn-green" style="margin-top:auto">Ver a loja</div>
+            </div>
+          </div></div>
+          <div class="cap"><b>Loja</b><span>Drops por destino, edição limitada por trecho e bundle de fundador.</span></div>
+        </div>
+
+      </div>
+
+      <div class="browser">
+        <div class="bar"><div class="url">app.196sonhos.com/painel</div></div>
+        <div class="dash">
+          <div>
+            <div class="panel" style="margin-bottom:var(--s-md)">
+              <div class="pt">Jornada ao vivo</div>
+              <h5>Mapa e transmissão</h5>
+              <div class="bigmap">
+                <svg viewBox="0 0 600 190" preserveAspectRatio="none">
+                  <polyline points="40,150 140,96 240,120 340,64 440,92 540,40" fill="none" stroke="#0075ff" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="40" cy="150" r="5" fill="#00b24b"/>
+                  <circle cx="140" cy="96" r="4" fill="#53575f"/>
+                  <circle cx="240" cy="120" r="4" fill="#53575f"/>
+                  <circle cx="340" cy="64" r="4" fill="#53575f"/>
+                  <circle cx="440" cy="92" r="4" fill="#53575f"/>
+                  <circle cx="540" cy="40" r="6" fill="#00b24b"/>
+                </svg>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="pt">Patrocinadores</div>
+              <div class="kpi">
+                <div><b>18</b><small>marcas ativas</small></div>
+                <div><b>4,2x</b><small>retorno médio</small></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel" style="margin-bottom:var(--s-md)">
+              <div class="pt">Doações de hoje</div>
+              <div class="lead-row"><span class="rank">1</span><span>@maria.souza</span><span class="amt">R$ 320</span></div>
+              <div class="lead-row"><span class="rank">2</span><span>@joao.pires</span><span class="amt">R$ 250</span></div>
+              <div class="lead-row"><span class="rank">3</span><span>@theo.viagens</span><span class="amt">R$ 180</span></div>
+              <div class="lead-row"><span class="rank">4</span><span>@ana</span><span class="amt">R$ 140</span></div>
+            </div>
+            <div class="panel">
+              <div class="pt">Assinaturas</div>
+              <div class="lead-row"><span>Clube 196</span><span class="amt">1.284</span></div>
+              <div class="lead-row"><span>MRR estimado</span><span class="amt">R$ 22.400</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" style="max-width:640px;margin:var(--s-md) auto 0;text-align:center">
+        <b>Painel web</b>
+        <span>Onde o Anderson acompanha a jornada, as doações e o retorno dos patrocinadores.</span>
+      </div>
+    </section>
+
+    <section class="sec" id="produto">
+      <div class="sec-head">
+        <div>
+          <div class="label">O que eu construo</div>
+          <h2>Produto, não só consultoria.</h2>
+        </div>
+      </div>
+      <div class="deliv">
+        <div class="card"><h3>App multiplataforma</h3><p>Android, iOS e web, com uma só base de código.</p></div>
+        <div class="card"><h3>Dashboard de live</h3><p>Doações, votação de rota e alertas na tela.</p></div>
+        <div class="card"><h3>Motor de assinatura</h3><p>Níveis, cobrança recorrente e cancelamento.</p></div>
+        <div class="card"><h3>Mapa da jornada</h3><p>Rota ao vivo e trechos com patrocínio.</p></div>
+        <div class="card"><h3>Loja</h3><p>Drops por destino, estoque e checkout.</p></div>
+        <div class="card"><h3>Painel de ROI</h3><p>Dados que justificam o ticket do patrocinador.</p></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <div>
+          <div class="label">Como funciona</div>
+          <h2>Três passos, uma métrica.</h2>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><b>Consultoria</b><p>Desenhamos o mix de monetização, os preços e o funil da audiência até o fã pagante.</p></div>
+        <div class="step"><div class="n">02</div><b>Produto</b><p>Eu construo o app, o dashboard de lives e a loja, integrados e multiplataforma.</p></div>
+        <div class="step"><div class="n">03</div><b>Métrica</b><p>Receita recorrente crescendo antes, durante e depois da viagem.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" id="proximo" style="border-bottom:0">
+      <div class="closing">
+        <div class="label">Próximo passo</div>
+        <h2>Uma conversa de 30 minutos.</h2>
+        <p>Eu mostro o protótipo do Clube 196 e os três níveis de assinatura. Você decide se faz sentido.</p>
+        <div class="ctaline">Clube 196: viaje junto ao vivo. Patrocine seu km da jornada.</div>
+        <button class="btn btn-primary">Agendar 30 minutos</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <a class="madeby" href="https://empiresdev.com" target="_blank" rel="noopener">
+      <img src="assets/empires-logo.png" alt="Empires Dev">
+      <span>empiresdev.com</span>
+    </a>
+    <span>196 Sonhos — proposta de monetização 2027</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
